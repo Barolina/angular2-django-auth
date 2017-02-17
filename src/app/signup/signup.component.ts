@@ -6,21 +6,14 @@ import { User } from '../model/user';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
-	username: string;
-	password: string;
-
+	model = new User('', '');
   constructor() {
  
   }
 
-  onKeyUsername(val:string){
-  	this.username = val;
-  }
+  onSubmit(){
 
-  onKeyPassword(val:string){
-  	this.password = val;
   }
-
   ngOnInit() {
 
   }
