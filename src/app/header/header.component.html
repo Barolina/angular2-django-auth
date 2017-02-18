@@ -1,0 +1,9 @@
+<ul class="header">
+	<li><a href=""  style="padding:5px 10px;"><img src="images/logo.png" ></a></li>
+	<li *ngFor="let m of menus" (click)="onClick(m)">
+		<a href="">{{m.title}}</a>
+	</li>
+	<li class="icon">
+		<i class="fa fa-bars fa-2x" aria-hidden="true"></i>
+	</li>
+</ul>

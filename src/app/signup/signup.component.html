@@ -1,11 +1,32 @@
-<form (ngSubmit)="onSubmint()" #signupForm="ngForm">
-	<label>Username:</label>
-	<input name="username" [(ngModel)]="model.username" #username="ngModel" required/>
-	<div [hidden]="username.valid || username.pristine">Username is required</div>
+<form id="signup-form" (ngSubmit)="onSubmint()" #signupForm="ngForm">
+	<div class="input-group">
+		<label>Username:</label>
+		<input name="username" [(ngModel)]="model.username" #username="ngModel" required/>
+		<div [hidden]="username.valid || username.pristine">Username is required</div>
+	</div>
+		
+	<div class="input-group">
+		<label>Email</label>
+		<input name="email" [(ngModel)]="model.email" #email="ngModel" required email />
+		<div [hidden]="email.valid || email.pristine">Email is required</div>
+<!-- 		<div [hidden]="email.valid">*Email exists, please use another.</div>
+		<div [hidden]="email.valid">Can not use following characters:  / \ : * ? " &lt; &gt; |</div>
+		<div [hidden]="email.valid">Invalid Email format.</div> -->
+	</div>
 
-	<label>Password:</label>
-	<input name="password" [(ngModel)]="model.password" #password="ngModel" required/>
-	<div [hidden]="password.valid || password.pristine">Password is required</div>
+	<div class="input-group">
+		<label>Password:</label>
+		<input name="password" [(ngModel)]="model.password" #password="ngModel" required />
+		<div [hidden]="password.valid || password.pristine">Password is required</div>
+	</div>
 
-	<button type="submit" class="btn" [disabled]="!signupForm.form.valid">Submit</button>
+	<div class="input-group">
+		<label>I 'm a &nbsp;</label>
+	    <md-radio-group class="holder" name="gender" [(ngModel)]="model.gender" #gender="ngModel">
+	      <md-radio-button value="m" class="md-primary">Male</md-radio-button>
+	      <md-radio-button value="f">Female</md-radio-button>
+	    </md-radio-group>
+	</div>
+
+	<button md-button type="submit" class="btn" [disabled]="!signupForm.form.valid">Submit</button>
 </form>
