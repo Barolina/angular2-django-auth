@@ -1,0 +1,13 @@
+<p>
+  product list:
+</p>
+<div class="grid grid-pad">
+  <div *ngFor="let product of products" class="col-1-4">
+    <div class="module product">
+      <h4>{{product.name}}</h4>
+      <h4>{{product.description}}</h4>
+      <h4>{{product.price}}</h4>
+      <h4>{{product.weight}} {{product.weightUnit}}</h4>
+    </div>
+  </div>
+</div>
