@@ -1,26 +1,26 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http, Response } from '@angular/http';
-import { Product } from '../models/product';
-
+import { Http, Headers, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
 @Injectable()
-export class ProductService {
+export class AuthService {
 
-  private baseUrl = 'http://localhost:8000/api';
-  private url = this.baseUrl + '/products';
   private http = null;
+  private baseUrl = 'http://localhost:8000/api';
+  private url = this.baseUrl + '/users';
 
   constructor(http:Http) { 
   	this.http = http;
   }
 
-  getProducts():Observable<Product[]>{
-  	return this.http.get(this.url)//.toPromise()
-  		.map(this.extractData)
-  		.catch(this.handleError);
+  createUser(body:Object){
+  	let s = JSON.stringify(body);
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+  	let options = new RequestOptions({ 'headers': headers });
+
+	this.http.post(this.url, s, options).map(this.extractData).catch(this.handleError);
   }
 
   private extractData(res: Response) {
@@ -41,5 +41,4 @@ export class ProductService {
     console.error(errMsg);
     return Observable.throw(errMsg);
   }
-
 }
