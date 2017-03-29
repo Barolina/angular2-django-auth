@@ -1,4 +1,4 @@
-# angular2-djanto-auth
+# angular2-django-auth
 
 This project is a angular2 web app that compatible to django 1.0.10 server
 
