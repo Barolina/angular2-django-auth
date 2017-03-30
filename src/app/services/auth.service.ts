@@ -4,6 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
+import { User } from '../models/user';
+
 @Injectable()
 export class AuthService {
 
@@ -15,13 +17,29 @@ export class AuthService {
   	this.http = http;
   }
 
-  createUser(body:Object){
-  	let s = JSON.stringify(body);
+  createUser(body:User){
+    let csrfToken = this.getCookie('csrftoken');
+  	let s = body.toPostJsonStr(csrfToken);
     let headers = new Headers({ 'Content-Type': 'application/json' });
-  	let options = new RequestOptions({ 'headers': headers });
+  	//let options = new RequestOptions({ 'headers': headers });
 
-	this.http.post(this.url, s, options).map(this.extractData).catch(this.handleError);
+	  this.http.post(this.url, s).map(this.extractData).catch(this.handleError);
   }
+
+  private getCookie(name: string) {
+        let ca: Array<string> = document.cookie.split(';');
+        let caLen: number = ca.length;
+        let cookieName = name + "=";
+        let c: string;
+
+        for (let i: number = 0; i < caLen; i += 1) {
+            c = ca[i].replace(/^\s\+/g, "");
+            if (c.indexOf(cookieName) == 0) {
+                return c.substring(cookieName.length, c.length);
+            }
+        }
+        return "";
+    }
 
   private extractData(res: Response) {
     let body = res.json();

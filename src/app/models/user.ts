@@ -8,4 +8,12 @@ export class User{
 		this.password = password;
 		this.email = email;
 	}
+
+	public toPostJsonStr(csrftoken:string){
+		return JSON.stringify({
+			csrfmiddlewaretoken: csrftoken,
+			username: this.username, 
+			password: this.password, 
+			email:this.email});
+	}
 }
