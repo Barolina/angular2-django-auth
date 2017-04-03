@@ -1,4 +1,4 @@
-<form id="signup-form" >
+<div id="signup-form" >
 	<div class="input-group">
 		<label>Username:</label>
 		<input name="username" [(ngModel)]="model.username" #username="ngModel" type="text" required/>
@@ -30,4 +30,4 @@
 
 	<button md-button type="button" class="btn btn-success" [disabled]="!signupForm.form.valid" (click)="onSubmit()">Submit</button>
 
-</form>
+</div>

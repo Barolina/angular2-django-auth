@@ -11,9 +11,9 @@ export class User{
 
 	public toPostJsonStr(csrftoken:string){
 		return JSON.stringify({
-			csrfmiddlewaretoken: csrftoken,
-			username: this.username, 
-			password: this.password, 
-			email:this.email});
+			'csrfmiddlewaretoken': csrftoken,
+			'username': this.username, 
+			'password': this.password, 
+			'email':this.email});
 	}
 }

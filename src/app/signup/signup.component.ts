@@ -17,7 +17,7 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit(){
-    this.authService.createUser(this.model);
+    this.authService.createUser(this.model).subscribe(r=>{});
   }
 
   ngOnInit() {

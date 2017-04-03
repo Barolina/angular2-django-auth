@@ -17,13 +17,15 @@ export class AuthService {
   	this.http = http;
   }
 
-  createUser(body:User){
+  createUser(body:User):Observable<User>{
     let csrfToken = this.getCookie('csrftoken');
-  	let s = body.toPostJsonStr(csrfToken);
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-  	//let options = new RequestOptions({ 'headers': headers });
+  	//let s = body.toPostJsonStr(csrfToken);
+    let s = JSON.stringify(body);
+    let headers = new Headers({ 'Content-Type': 'application/json', 'X-CSRFToken':csrfToken });
+  	let options = new RequestOptions({ 'headers': headers });
 
-	  this.http.post(this.url, s).map(this.extractData).catch(this.handleError);
+	  //this.http.post(this.url, s).map(this.extractData).catch(this.handleError);
+    return this.http.post(this.url, s, options).map(res => res.json());
   }
 
   private getCookie(name: string) {
@@ -40,6 +42,24 @@ export class AuthService {
         }
         return "";
     }
+
+// private getCookie(name:string) {
+//     var cookieValue = null;
+//     if (document.cookie && document.cookie !== '') {
+//         var cookies = document.cookie.split(';');
+//         for (var i = 0; i < cookies.length; i++) {
+//             var cookie = jQuery.trim(cookies[i]);
+//             // Does this cookie string begin with the name we want?
+//             if (cookie.substring(0, name.length + 1) === (name + '=')) {
+//                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+//                 break;
+//             }
+//         }
+//     }
+//     return cookieValue;
+// }
+
+
 
   private extractData(res: Response) {
     let body = res.json();
