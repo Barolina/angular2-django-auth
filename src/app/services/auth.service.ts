@@ -18,10 +18,10 @@ export class AuthService {
   }
 
   createUser(body:User):Observable<User>{
-    let csrfToken = this.getCookie('csrftoken');
+    //let csrfToken = this.getCookie('csrftoken');
   	//let s = body.toPostJsonStr(csrfToken);
     let s = JSON.stringify(body);
-    let headers = new Headers({ 'Content-Type': 'application/json', 'X-CSRFToken':csrfToken });
+    let headers = new Headers({ 'Content-Type': 'application/json'});//, 'X-CSRFToken':csrfToken });
   	let options = new RequestOptions({ 'headers': headers });
 
 	  //this.http.post(this.url, s).map(this.extractData).catch(this.handleError);
