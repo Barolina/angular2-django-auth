@@ -2,7 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule, JsonpModule } from '@angular/http';
-import { MaterialModule } from '@angular/material';
+//import { MaterialModule } from '@angular/material';
+//import { AnimationsModule } from '@angular/animations';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
@@ -22,10 +23,10 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     SignupComponent,
+    LoginComponent,
     HeaderComponent,
     ProductListComponent,
     ProductDetailComponent,
-    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +34,7 @@ const routes: Routes = [
     HttpModule,
     JsonpModule,
     RouterModule.forRoot(routes),
-    MaterialModule.forRoot()
+    //MaterialModule
   ],
   exports:[RouterModule],
   providers: [],

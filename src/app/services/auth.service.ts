@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+
+import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
@@ -10,38 +12,57 @@ import { User } from '../models/user';
 export class AuthService {
 
   private http = null;
-  private baseUrl = 'http://localhost:8000/api';
-  private url = this.baseUrl + '/users';
+  private baseUrl = 'http://localhost:8000';
+  
 
   constructor(http:Http) { 
   	this.http = http;
   }
 
-  createUser(body:User):Observable<User>{
-    //let csrfToken = this.getCookie('csrftoken');
-  	//let s = body.toPostJsonStr(csrfToken);
-    let s = JSON.stringify(body);
-    let headers = new Headers({ 'Content-Type': 'application/json'});//, 'X-CSRFToken':csrfToken });
-  	let options = new RequestOptions({ 'headers': headers });
-
-	  //this.http.post(this.url, s).map(this.extractData).catch(this.handleError);
-    return this.http.post(this.url, s, options).map(res => res.json());
+  //------------------------------------------------
+  // http.get return an RxJS Observable
+  getUser(id:number): Promise<User>{
+    const url = this.baseUrl + `/users/${id}`;
+    return this.http.get(url)
+            .toPromise()
+            .then(this.getmy)//rsp => rsp.json().data as User)
+            .catch(this.getUserError);
   }
 
-  private getCookie(name: string) {
-        let ca: Array<string> = document.cookie.split(';');
-        let caLen: number = ca.length;
-        let cookieName = name + "=";
-        let c: string;
+  getmy(rsp:any): any{
+    return rsp.json().data as User;
+  }
 
-        for (let i: number = 0; i < caLen; i += 1) {
-            c = ca[i].replace(/^\s\+/g, "");
-            if (c.indexOf(cookieName) == 0) {
-                return c.substring(cookieName.length, c.length);
-            }
-        }
-        return "";
-    }
+  private getUserError(error: any): Promise<any> {
+    console.error('An error occurred', error);
+    return Promise.reject(error.message || error);
+  }
+
+  // createUser(body:User):Observable<User>{
+  //   //let csrfToken = this.getCookie('csrftoken');
+  // 	//let s = body.toPostJsonStr(csrfToken);
+  //   let s = JSON.stringify(body);
+  //   let headers = new Headers({ 'Content-Type': 'application/json'});//, 'X-CSRFToken':csrfToken });
+  // 	let options = new RequestOptions({ 'headers': headers });
+
+	 //  //this.http.post(this.url, s).map(this.extractData).catch(this.handleError);
+  //   return this.http.post(this.url, s, options).map(res => res.json());
+  // }
+
+  // private getCookie(name: string) {
+  //       let ca: Array<string> = document.cookie.split(';');
+  //       let caLen: number = ca.length;
+  //       let cookieName = name + "=";
+  //       let c: string;
+
+  //       for (let i: number = 0; i < caLen; i += 1) {
+  //           c = ca[i].replace(/^\s\+/g, "");
+  //           if (c.indexOf(cookieName) == 0) {
+  //               return c.substring(cookieName.length, c.length);
+  //           }
+  //       }
+  //       return "";
+  //   }
 
 // private getCookie(name:string) {
 //     var cookieValue = null;
@@ -61,22 +82,22 @@ export class AuthService {
 
 
 
-  private extractData(res: Response) {
-    let body = res.json();
-    return body;
-  }
+  // private extractData(res: Response) {
+  //   let body = res.json();
+  //   return body;
+  // }
   
-  private handleError (error: Response | any) {
-    // In a real world app, you might use a remote logging infrastructure
-    let errMsg: string;
-    if (error instanceof Response) {
-      const body = error.json() || '';
-      const err = body.error || JSON.stringify(body);
-      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-    } else {
-      errMsg = error.message ? error.message : error.toString();
-    }
-    console.error(errMsg);
-    return Observable.throw(errMsg);
-  }
+  // private handleError2 (error: Response | any) {
+  //   // In a real world app, you might use a remote logging infrastructure
+  //   let errMsg: string;
+  //   if (error instanceof Response) {
+  //     const body = error.json() || '';
+  //     const err = body.error || JSON.stringify(body);
+  //     errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+  //   } else {
+  //     errMsg = error.message ? error.message : error.toString();
+  //   }
+  //   console.error(errMsg);
+  //   return Observable.throw(errMsg);
+  // }
 }

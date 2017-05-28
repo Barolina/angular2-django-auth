@@ -1,37 +1,13 @@
 <div id="login-form" >
 	<div class="input-group">
-			<div class="input-group">
-				<label>Username or Email:</label>
-				<input ng-model="login.account" name="account" required username-valid-char account-exist/>
-				
-<!-- 				<div class="error" ng-messages="loginForm.account.$error" ng-show="loginForm.account.$touched">
-					<div ng-message="validChar">Can not use following characters: / \ : * ? " &lt; &gt; |</div>
-		          	<div ng-message="required">Please input your Username or Email</div>
-		          	<div ng-message="exist">Username or Email does not exists</div>
-		        </div> -->
-			</div>
+		<label>Username or Email:</label>
+		<input type="text" class="form-control" required [(ngModel)]="user.username" #username="ngModel"  name="username" />
+	</div>
 
-			<div class="input-group">
-				<label>Password:</label>
-				<input name="password" [(ngModel)]="model.password" #password="ngModel" type="password" required />
-<!-- 				<div class="error" ng-messages="loginForm.password.$error" ng-show="loginForm.account.$touched">
-		          <div ng-message="required">Please input your password</div>
-		        </div> -->
-			</div>
-				
-<!-- 			<div layout-wrap layout-gt-sm="row">
-				<md-checkbox ng-model="login.remember">
-					Remember Password
-				</md-checkbox>
-			</div> -->
+	<div class="input-group">
+		<label>Password:</label>
+		<input type="password" class="form-control" required [(ngModel)]="user.password" #password="ngModel"  name="password" />
+	</div>
 
-			<button md-button type="button" class="btn btn-success" [disabled]="!loginForm.form.valid" (click)="onSubmit()">Login</button>
-
-			<div class="col-md-10 forget-password">
-				<p><a href="#/forgetPassword" translate>Forgot your password?</a></p>
-				<p><span translate>New User?</span>&nbsp;<a href="#/signup" translate>Sign up now</a></p>
-			</div>
-		</div>
-	<!-- Inline template -->
-<!-- 	<script type="text/ng-template" id="dialog.html"></script> -->
+	<button type="submit" class="btn btn-success" (click)="onSubmit()">Login</button>
 </div>
