@@ -12,7 +12,7 @@ import { AuthService } from '../services/auth.service';
 export class LoginComponent implements OnInit {
 
   //private user: User;
-  user = new User("my name", "my pass", "my email");
+  user = new User("SSS", "DDD", "");
   
   constructor(private authService: AuthService) { 
   	
@@ -27,7 +27,10 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void{
-    this.getUser(0);
+    var user = this.user;
+
+    //this.authService.login(user.username, user.password);
+    this.authService.login('chen', 'chen');
     console.log("submit login");
   }
 }

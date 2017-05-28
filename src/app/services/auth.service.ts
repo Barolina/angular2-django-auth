@@ -13,7 +13,7 @@ export class AuthService {
 
   private http = null;
   private baseUrl = 'http://localhost:8000';
-  
+  private user = new User("","","");
 
   constructor(http:Http) { 
   	this.http = http;
@@ -32,6 +32,20 @@ export class AuthService {
   getmy(rsp:any): any{
     return rsp.json().data as User;
   }
+
+  login(username: string, password: string): Promise<string> {
+    const url = this.baseUrl + `/login`;
+    var creds = "username=" + username + "&password=" + password;
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    return this.http.post(url, creds, headers)//,'csrfmiddleware‌​token':'CSRF-TOKEN-V‌​ALUE'})
+            .toPromise()
+            .then(function(rsp){
+              var token = rsp.json().data;
+            })
+            .catch(this.getUserError)
+  }
+
 
   private getUserError(error: any): Promise<any> {
     console.error('An error occurred', error);
