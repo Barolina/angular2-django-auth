@@ -13,13 +13,16 @@ export class LoginComponent implements OnInit {
 
   //private user: User;
   user = new User("SSS", "DDD", "");
-  
+  token = '';
+
   constructor(private authService: AuthService) { 
   	
   }
 
   ngOnInit(): void{
-  	//this.getUser(0);
+  	this.authService.genCSRF().subscribe(
+        token => this.token = token
+      );
   }
 
   getUser(id:number): void{
@@ -30,7 +33,9 @@ export class LoginComponent implements OnInit {
     var user = this.user;
 
     //this.authService.login(user.username, user.password);
-    this.authService.login('chen', 'chen');
+    this.authService.login('chen', 'chen').subscribe(
+        token => this.token = token
+      );
     console.log("submit login");
   }
 }

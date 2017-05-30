@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response, RequestOptions } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
 
-import 'rxjs/add/operator/toPromise';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
@@ -33,23 +32,36 @@ export class AuthService {
     return rsp.json().data as User;
   }
 
-  login(username: string, password: string): Promise<string> {
+  genCSRF():Promise<string>{
+    const url = this.baseUrl + `/csrf`;
+    return this.http.get(url)
+               .toPromise()
+               .then(function(rsp){})
+               .catch(this.getUserError)
+  }
+
+  login(username: string, password: string): Observable<string> {
     const url = this.baseUrl + `/login`;
     var creds = "username=" + username + "&password=" + password;
-    let headers = new Headers({ 'Content-Type': 'application/json' });
+    //let headers = new Headers({ 'Content-Type': "application/json",//});
+    let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded',//});
+      'Access-Control-Allow-Origin': '*' });
+// header('Access-Control-Allow-Origin: *');
+// header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+// header('Access-Control-Allow-Methods: GET, POST, PUT');
+
     let options = new RequestOptions({ headers: headers });
-    return this.http.post(url, creds, headers)//,'csrfmiddleware‌​token':'CSRF-TOKEN-V‌​ALUE'})
-            .toPromise()
-            .then(function(rsp){
-              var token = rsp.json().data;
-            })
-            .catch(this.getUserError)
+    return this.http.post(url, creds, options)//,'csrfmiddleware‌​token':'CSRF-TOKEN-V‌​ALUE'})
+                    .map(function(rsp){
+                      var token = rsp.json().data;
+                    })
+                    .catch(this.getUserError);
   }
 
 
-  private getUserError(error: any): Promise<any> {
+  private getUserError(error: any): Observable<any> {
     console.error('An error occurred', error);
-    return Promise.reject(error.message || error);
+    return Observable.throw(error.message || error);
   }
 
   // createUser(body:User):Observable<User>{
